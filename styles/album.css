@@ -51,12 +51,21 @@
  }
  
  .song-item-title {
-     width: 85%;
+     width: 80%;
  }
  
  .song-item-duration {
      width: 5%;
  }
+
+.song-item-played {
+    width: 5%;
+    padding-left: 10px;
+}
+
+.played {
+ padding-left: 5px;   
+}
 
 
  /* #2 */
@@ -79,3 +88,4 @@
          margin: auto;
      }
  }
+
