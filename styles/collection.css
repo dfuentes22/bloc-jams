@@ -1,8 +1,8 @@
 body.collection {
     background-image: url(../assets/images/blurred_backgrounds/blur_bg_2.jpg);
-    background-repeat: repeat-y;
+    background-repeat: no-repeat;
     background-position: center center;
-    background-size: cover;
+    background-size: auto;
 }
 
 .album-covers {
