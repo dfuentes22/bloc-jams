@@ -1,3 +1,113 @@
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
 // Example Album
  var albumPicasso = {
      name: 'The Colors',
@@ -13,7 +123,7 @@
          { name: 'Magenta', length: '2:15'}
      ]
  };
- 
+  
  // Another Example Album
  var albumMarconi = {
      name: 'The Telephone',
@@ -29,10 +139,26 @@
          { name: 'Wrong phone number', length: '2:15'}
      ]
  };
-    
-
- var createSongRow = function(songNumber, songName, songLength) {
+ 
+//My album
+var albumDan = {
+     name: 'Torches',
+     artist: 'Foster The People',
+     label: 'Columbia',
+     year: '2011',
+     albumArtUrl: 'assets/images/album_covers/11.png',
+     songs: [
+         { name: 'Helena Beat', length: '4:36' },
+         { name: 'Pumped Up Kids', length: '4:00' },
+         { name: 'Waste', length: '3:25'},
+         { name: 'Call It What You Want', length: '4:01' },
+         { name: 'Warrant', length: '5:23'}
+     ]
+ };
      
+//Template for a song row
+ var createSongRow = function(songNumber, songName, songLength) {
+      
      var template =
         '<tr class="album-view-song-item">'
       + '  <td class="song-item-number">' + songNumber + '</td>'
@@ -40,36 +166,55 @@
       + '  <td class="song-item-duration">' + songLength + '</td>'
       + '</tr>'
       ;
- 
+  
      return template;
- 
+  
  };
-
-var setCurrentAlbum = function(album) {
  
+//function that sets the current album 
+var setCurrentAlbum = function(album) {
+  
     // #1 selec all html elements required to display on the album page
     var albumTitle = document.getElementsByClassName('album-view-title')[0];
     var albumArtist = document.getElementsByClassName('album-view-artist')[0];
     var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
     var albumImage = document.getElementsByClassName('album-cover-art')[0];
     var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
-    
-    //#2
+     
+    //#2 
     albumTitle.firstChild.nodeValue = album.name;
     albumArtist.firstChild.nodeValue = album.artist;
     albumReleaseInfo.firstChild.nodeValue = album.year + " " + album.label;
     albumImage.setAttribute('src', album.albumArtUrl);
-    
+     
     //#3
     albumSongList.innerHTML = '';
-    
+     
     //#4
     for(i=0; i < album.songs.length; i++) {
         albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length);   
     }
 };
-
+ 
 window.onload = function() {
-
     setCurrentAlbum(albumMarconi);
+     
+    var albumList = [albumMarconi,albumPicasso,albumDan];
+    var i = 0;
+     
+    //event listener to toggle between albums
+    document.getElementsByClassName("album-cover-art")[0].addEventListener('click', function() {
+        /*var display = albumList[i >= albumList.length - 1 ? i = 0 : ++i];    
+        setCurrentAlbum(display);*/
+        if (i >= albumList.length - 1){
+            i = 0;   
+        }
+         
+        else {
+          i++;   
+        }
+        console.log(i);
+        setCurrentAlbum(albumList[i]);
+    });
+    //used this to do it http://stackoverflow.com/questions/23169501/how-to-change-between-3-images-with-javascript-           onclick-event
 };
