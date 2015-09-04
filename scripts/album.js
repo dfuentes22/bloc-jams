@@ -163,6 +163,8 @@ window.onload = function() {
 
             if (songItem.getAttribute('data-song-number') !== currentlyPlayingSong) {
                 songItem.innerHTML = playButtonTemplate;
+            } else {
+                songItem.innerHTML = pauseButtonTemplate;
             }
         }
     });
