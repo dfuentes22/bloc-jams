@@ -1,5 +1,7 @@
-//Template to hold the collection
-var collectionItemTemplate = 
+//#1 Template to hold the collection
+ var buildCollectionItemTemplate = function() {
+ 
+    var template =
     '<div class="collection-album-container column fourth">'
 + '    <img src="assets/images/album_covers/01.png"/>'
 + '    <div class="collection-album-info caption">'
@@ -13,15 +15,21 @@ var collectionItemTemplate =
 + '      </p>'
 + '    </div>'
 + '  </div>';
+      
+     // #2 returns the template
+     return $(template);
+ };
 
-window.onload = function () {
-    //#1
-    var collectionContainer = document.getElementsByClassName('album-covers')[0].childNodes[1];
-    //#2
-    collectionContainer.innerHTML = '';
+$(window).load(function() {
+    //#3 Assign the album container that has the .clearfix classes on it
+    var $collectionContainer = $('.album-covers .clearfix');
     
-    //#3
+    //#4 Clear the conctents of the HTML just in case someting else has been dynamicaly inserted
+    $collectionContainer.empty();
     for(var i = 0; i < 12; i++) {
-        collectionContainer.innerHTML += collectionItemTemplate;
+        var $newThumbnail = buildCollectionItemTemplate();
+    //#5
+        $collectionContainer.append($newThumbnail);
+        
     }
-}
+});
