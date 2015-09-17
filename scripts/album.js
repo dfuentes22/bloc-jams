@@ -102,10 +102,35 @@ var setCurrentAlbum = function(album) {
     // Clear contents of album song list container
     $albumSongList.empty();     
     // Build list of songs from album JavaScript object
-    for(i=0; i < album.songs.length; i++) {
-         var $newRow = createSongRow(i + 1, album.songs[i].name, album.songs[i].length);
-         $albumSongList.append($newRow);    }
+    album.songs.forEach(function(song) {
+
+        var soundFile = new buzz.sound(song.audioUrl, {
+            formats: [ 'mp3' ],
+            preload: true
+        });
+
+        soundFile.bind("loadeddata", function(e) {
+            var soundLength = this.getDuration();
+            var index = album.songs.indexOf(song);
+            var name = song.name
+            var $newRow = createSongRow(index + 1, name, filterTimeCode(soundLength));
+            $albumSongList.append($newRow);
+        });
+    });
 };
+
+/*var findSongLength = function(song) {
+    
+    var soundFile = new buzz.sound(song.audioUrl, {
+        formats: [ 'mp3' ],
+        preload: true
+    });
+    console.log(soundFile);
+    var songLength = soundFile.getDuration();
+    console.log(songLength);
+    
+    return songLength;
+};*/
 
 
 var nextSong = function() {
@@ -247,9 +272,10 @@ var togglePlayFromPlayerBar = function() {
             var $seekBar = $('.seek-control .seek-bar');
  
             updateSeekPercentage($seekBar, seekBarFillRatio);
+            setCurrentTimeInPlayerBar(this.getTime());
+            setTotalTimeInPlayerBar(this.getDuration());
         });
     }
- 
  };
 
 var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
@@ -324,6 +350,30 @@ var setupSeekBars = function() {
    
  };
  
+var setCurrentTimeInPlayerBar = function(currentTime) {
+    //Sets the song curent time
+    $('.current-time').text(filterTimeCode(currentTime));
+};
+
+var setTotalTimeInPlayerBar = function(totalTime) {
+    //Sets the song total time
+    $('.total-time').text(filterTimeCode(totalTime));
+};
+
+var filterTimeCode = function(timeInSeconds) {
+    var time = parseFloat(timeInSeconds);
+    
+    var minutes = Math.floor(time / 60);
+    var seconds = Math.floor(time - minutes * 60);
+
+    var time = minutes + ':' + seconds;
+    
+    return time;
+};
+
+
+    
+    
 
  // Album button templates
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
@@ -337,6 +387,7 @@ var currentlyPlayingSongNumber = null;
 var currentSongFromAlbum = null;
 var currentSoundFile = null;
 var currentVolume = 80;
+
 
 // Player bar element selectors
 var $previousButton = $('.left-controls .previous');
